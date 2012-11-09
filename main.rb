@@ -22,9 +22,10 @@ end
 
 set :root, File.dirname(__FILE__)
 set :views, "#{File.dirname(__FILE__)}/views"
-set :public, "#{File.dirname(__FILE__)}/public"
+set :public_folder, "#{File.dirname(__FILE__)}/public"
 set :sessions, true
-
+set :port, ENV['PORT']
+set :bind, ENV['IP']
 
 ## Models
 class Run
