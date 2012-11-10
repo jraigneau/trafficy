@@ -7,50 +7,9 @@ require 'nokogiri'
 require 'open-uri'
 require 'sequel'
 
+require './init'
 
 #https://maps.google.fr/maps?saddr=14+Rue+de+Lorraine,+Asni%C3%A8res-sur-Seine&daddr=Ris-Orangis
-
-## Configurations 
-enable :sessions
-
-configure :development do
-  DB = Sequel.sqlite('trafficy-dev.db')
-  set :port, ENV['PORT']
-  set :bind, ENV['IP']
-end
-
-configure :production do
-  Sequel.connect(ENV['DATABASE_URL'])
-end
-
-set :root, File.dirname(__FILE__)
-set :views, "#{File.dirname(__FILE__)}/views"
-set :public_folder, "#{File.dirname(__FILE__)}/public"
-set :sessions, true
-
-## Models
-DB.create_table :paths do
-  primary_key :id
-  String  :origin
-  String  :destination
-  Date    :morning_interval
-  Date    :evening_interval
-end
-
-DB.create_table :results do
-  primary_key :id
-  Date      :date
-  Integer   :minutes
-  foreign_key :path_id, :paths
-end
-
-class Path < Sequel::Model
-    one_to_many :results
-end
-
-class Result < Sequel::Model
-    many_to_one :path
-end
 
 
 ## Helpers
@@ -66,7 +25,15 @@ end
 
 get '/test' do
   doc = Nokogiri::HTML(open('https://maps.google.fr/maps?saddr=14+Rue+de+Lorraine,+Asni%C3%A8res-sur-Seine&daddr=Ris-Orangis'))  
-  puts doc.xpath("//*[@id='altroute_0']/div/div[2]/span").text
+  data = doc.xpath("//*[@id='altroute_0']/div/div[2]/span").text.split(":")[1].split(" ")
+  #first result: "Dans les conditions actuelles de circulation : 1 heure 10 min" 
+  min = 0
+  if data.length > 2 #more than 1 hour
+    min = data[0].to_i*60 + data[2].to_i
+  else
+    min = data[0].to_i
+  end
+  puts "nb min:" + min.to_s
 end
 
 
