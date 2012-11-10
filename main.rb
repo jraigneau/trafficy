@@ -4,11 +4,12 @@ require 'data_mapper'
 require 'sinatra'
 require 'haml'
 require 'date'
+require 'nokogiri'
 
 
+#https://maps.google.fr/maps?saddr=14+Rue+de+Lorraine,+Asni%C3%A8res-sur-Seine&daddr=Ris-Orangis
 
-
-## Congurations 
+## Configurations 
 enable :sessions
 
 configure :development do
@@ -16,27 +17,33 @@ configure :development do
 end
 
 configure :production do
-    require 'newrelic_rpm'
    DataMapper.setup(:default, ENV['DATABASE_URL'])
+  set :port, ENV['PORT']
+  set :bind, ENV['IP']
 end
 
 set :root, File.dirname(__FILE__)
 set :views, "#{File.dirname(__FILE__)}/views"
 set :public_folder, "#{File.dirname(__FILE__)}/public"
 set :sessions, true
-set :port, ENV['PORT']
-set :bind, ENV['IP']
 
 ## Models
-class Run
+class Path
   include DataMapper::Resource  
   property :id,                   Serial
-  property :id_user,              String
-  property :date,                 Date
-  property :duree,                Float
-  property :distance,             Float
-  property :commentaires,         Text
-  property :id_post,              String
+  property :origin,               String
+  property :destination,          String
+  property :morning_interval,     Date
+  property :evening_interval,     Date
+  has n, :results
+end
+
+class Result
+  include DataMapper::Resource  
+  property :id,                   Serial
+  property :date,                  Date
+  property :minutes,               Integer
+  belongs_to :path 
 end
 
 DataMapper.auto_upgrade!
