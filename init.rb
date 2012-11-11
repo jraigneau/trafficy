@@ -11,7 +11,7 @@ configure :development do
 end
 
 configure :production do
-	Sequel.connect(ENV['DATABASE_URL'])
+	DB = Sequel.connect(ENV['DATABASE_URL'])
 end
 
 set :root, File.dirname(__FILE__)

@@ -12,6 +12,7 @@ Sequel.migration do
 			primary_key :id
 			String  :origin
 			String  :destination
+			Boolean	:type #true = evening 
 			timestamp :created_at
 			timestamp :updated_at
 		end
