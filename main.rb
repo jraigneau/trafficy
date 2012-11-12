@@ -18,11 +18,11 @@ helpers do
     "<a href='#{ URI.encode url }'>#{ text }</a>"
   end
   #vérifie si la date est le matin ou le soir (après / avant 13h) => defaut = matin
-  def is_morning? date
-    if date.nil? or date == 0
+  def is_morning?(myDate)
+    if myDate.nil? or myDate == 0
         true
     else
-        if DateTime.strptime(date, "%Y-%m-%d_%H-%M").hour < 13
+        if DateTime.strptime(myDate, "%Y-%m-%d_%H-%M").hour < 13
             true
         else
             false
@@ -36,15 +36,14 @@ get '/' do
   haml :index
 end
 
-
 #https://maps.google.fr/maps?saddr=14+Rue+de+Lorraine,+Asni%C3%A8res-sur-Seine&daddr=26+Rue+de+la+Rochefoucauld,+Boulogne-Billancourt
 
-get '/run/:date' do
-    if :date != ""
-        Path.each do |x|
-            origin = x.origin
-            destination = x.destination
-            if !is_morning(:date) #Si c'est le soir, on inverse destination et origin
+get '/run/:now' do
+    if params[:now]
+        Path.each do |path|
+            origin = path.origin
+            destination = path.destination
+            if !is_morning?(params[:now]) #Si c'est le soir, on inverse destination et origin
                 origin,destination = destination, origin
             end
             
@@ -53,7 +52,7 @@ get '/run/:date' do
             if data.length != 0 #il y a des bouchons
                 data = data.text.split(":")[1].split(" ")
                 #first result: "Dans les conditions actuelles de circulation : 1 heure 10 min" 
-            else #pas de bouchon => pas le même code html
+            elsif doc.xpath("//*[@id='altroute_0']/div/div[1]/span").length != 0 #pas de bouchon => pas le même code html
                 data = doc.xpath("//*[@id='altroute_0']/div/div[1]/span").text.split("km")[1].split(" ")
             end
             
@@ -63,10 +62,10 @@ get '/run/:date' do
             else
                 min = data[0].to_i
             end
-            puts "nb min:" + min.to_s
-
+            puts "origin: #{origin} dest: #{destination} nb min:#{min.to_s}"
         end
     end
+    return "200"
 end
 
 
