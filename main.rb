@@ -43,32 +43,34 @@ end
 get '/run/:now' do
     if params[:now]
         Path.each do |path|
-            origin = path.origin
-            destination = path.destination
-            if !is_morning?(params[:now]) #Si c'est le soir, on inverse destination et origin
-                origin,destination = destination, origin
-            end
-            
-            doc = Nokogiri::HTML(open("https://maps.google.fr/maps?saddr=#{ origin }&daddr=#{ destination }"))  
-            data = doc.xpath("//*[@id='altroute_0']/div/div[2]/span")
-            if data.length != 0 #il y a des bouchons
+            begin
+              is_morning = 1
+              origin = URI::encode(path.origin)
+              destination = URI::encode(path.destination)
+              if !is_morning?(params[:now]) #Si c'est le soir, on inverse destination et origin
+                  origin,destination = destination, origin
+                  is_morning = 0
+              end
+              logger.info "https://maps.google.fr/maps?saddr=#{ origin }&daddr=#{ destination }"
+              doc = Nokogiri::HTML(open("https://maps.google.fr/maps?saddr=#{ origin }&daddr=#{ destination }"))  
+              data = doc.xpath("//*[@id='altroute_0']/div/div[2]/span")
+              if data.length != 0 #il y a des bouchons
                 data = data.text.split(":")[1].split(" ")
                 #first result: "Dans les conditions actuelles de circulation : 1 heure 10 min" 
-            elsif doc.xpath("//*[@id='altroute_0']/div/div[1]/span").length != 0 #pas de bouchon => pas le même code html
-                data = doc.xpath("//*[@id='altroute_0']/div/div[1]/span").text.split("km")[1].split(" ")
-            end
-            
-            min = 0
-            if data.length > 2 #more than 1 hour
-                min = data[0].to_i*60 + data[2].to_i
-            else
-                min = data[0].to_i
-            end
-            logger.info "origin: #{origin} dest: #{destination} nb min:#{min.to_s}"
-            begin
-                Result.insert(:date => DateTime.strptime(params[:now], "%Y-%m-%d_%H-%M"), :minutes => min, :path_id => path.id)
-            rescue Sequel::Error => err
-                logger.error "/run/ :" + err
+              elsif doc.xpath("//*[@id='altroute_0']/div/div[1]/span").length != 0 #pas de bouchon => pas le même code html
+                data = doc.xpath("//*[@id='altroute_0']/div/div[1]/span[2]").text.split(" ")
+              end
+              
+              min = 0
+              if data.length > 2 #more than 1 hour
+                  min = data[0].to_i*60 + data[2].to_i
+              else
+                  min = data[0].to_i
+              end
+              logger.info "origin: #{origin} dest: #{destination} nb min:#{min.to_s}"
+              Result.create(:date => DateTime.strptime(params[:now], "%Y-%m-%d_%H-%M"), :minutes => min, :path_id => path.id, :is_morning => is_morning)
+            rescue Exception => e
+              logger.error "/run/ :" + e.message
             end
         end
     end

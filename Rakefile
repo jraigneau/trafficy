@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
 require 'sequel'
+
+task :recreate_all => [:drop_results, :drop_paths, :create_paths, :create_results]
 
 task :create_results do
     DB = Sequel.sqlite("trafficy-dev.db")
@@ -28,8 +31,8 @@ task :create_paths do
 		timestamp :created_at
 		timestamp :updated_at
 	end
-    DB[:paths].insert(:origin => "14+Rue+de+Lorraine,+Asni%C3%A8res-sur-Seine", :destination => "Chemin+du+Bois+de+l'H%C3%B4tel+Dieu,+91130+Ris-Orangis", :created_at => Date.new, :updated_at => Date.new)
-    DB[:paths].insert(:origin => "14+Rue+de+Lorraine,+Asni%C3%A8res-sur-Seine", :destination => "Ris-Orangis", :created_at => Date.new, :updated_at => Date.new)
+    DB[:paths].insert(:origin => "14 Rue de Lorraine, Asnières-sur-Seine", :destination => "Chemin du Bois de l'Hôtel Dieu, 91130 Ris-Orangis")
+    DB[:paths].insert(:origin => "14 Rue de Lorraine, Asnières-sur-Seine", :destination => "26 rue de la rochefoucauld, Boulogne-Billancourt")
 
 end
 

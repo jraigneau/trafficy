@@ -1,5 +1,5 @@
+# -*- coding: utf-8 -*-
 require 'sequel'
-
 
 ## Configurations 
 enable :sessions
@@ -19,8 +19,7 @@ set :views, "#{File.dirname(__FILE__)}/views"
 set :public_folder, "#{File.dirname(__FILE__)}/public"
 set :sessions, true
 
-Haml::Options.defaults[:escape_html] = true
-
+Sequel::Model.plugin :timestamps
 
 require './models'
 
