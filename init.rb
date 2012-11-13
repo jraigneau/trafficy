@@ -19,4 +19,8 @@ set :views, "#{File.dirname(__FILE__)}/views"
 set :public_folder, "#{File.dirname(__FILE__)}/public"
 set :sessions, true
 
+Haml::Options.defaults[:escape_html] = true
+
+
 require './models'
+

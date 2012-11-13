@@ -6,6 +6,7 @@ require 'date'
 require 'nokogiri'
 require 'open-uri'
 require 'sequel'
+require "sinatra/reloader" if development?
 
 require './init'
 
@@ -36,6 +37,7 @@ get '/' do
   haml :index
 end
 
+# [ ]
 #https://maps.google.fr/maps?saddr=14+Rue+de+Lorraine,+Asni%C3%A8res-sur-Seine&daddr=26+Rue+de+la+Rochefoucauld,+Boulogne-Billancourt
 
 get '/run/:now' do
@@ -62,7 +64,12 @@ get '/run/:now' do
             else
                 min = data[0].to_i
             end
-            puts "origin: #{origin} dest: #{destination} nb min:#{min.to_s}"
+            logger.info "origin: #{origin} dest: #{destination} nb min:#{min.to_s}"
+            begin
+                Result.insert(:date => DateTime.strptime(params[:now], "%Y-%m-%d_%H-%M"), :minutes => min, :path_id => path.id)
+            rescue Sequel::Error => err
+                logger.error "/run/ :" + err
+            end
         end
     end
     return "200"
