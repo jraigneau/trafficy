@@ -11,7 +11,7 @@ configure :development do
 end
 
 configure :production do
-	DB = Sequel.connect(ENV['DATABASE_URL'])
+	DB = Sequel.connect(ENV['HEROKU_POSTGRESQL_BRONZE_URL'])
 end
 
 set :root, File.dirname(__FILE__)
