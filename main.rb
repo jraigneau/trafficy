@@ -59,7 +59,7 @@ get '/run/:now' do
                 #first result: "Dans les conditions actuelles de circulation : 1 heure 10 min" 
               elsif doc.xpath("//*[@id='altroute_0']/div/div[1]/span").length != 0 #pas de bouchon => pas le même code html
                 data = doc.xpath("//*[@id='altroute_0']/div/div[1]/span[2]").text.split(" ")
-              end
+              end #les autres cas tomberont en erreur => récupération via le rescue
               
               min = 0
               if data.length > 2 #more than 1 hour

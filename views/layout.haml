@@ -2,9 +2,9 @@
 %html{:lang => "en"}
   %head
     %meta{:charset => "utf-8"}/
-    %title Bootstrap, from Twitter
-    %meta{:content => "", :name => "description"}/
-    %meta{:content => "", :name => "author"}/
+    %title Trafficy: Calcul des meilleurs temps de parcours
+    %meta{:content => "", :name => "Trafficy: Calcul des meilleurs temps de parcours"}/
+    %meta{:content => "", :name => "Julien Raigneau, Zeneffy Labs"}/
     / Le HTML5 shim, for IE6-8 support of HTML elements
     /[if lt IE 9]
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -14,7 +14,7 @@
     :css
       body {
         padding-top: 60px;
-        padding-bottom: 40px;
+        padding-bottom: 0px;
       }
         %link{:href => "/css/bootstrap-responsive.css", :rel => "stylesheet"}/
     / Le fav and touch icons
@@ -29,6 +29,8 @@
             %span.icon-bar
           %a.brand{:href => "#"} Trafficy
           .nav-collapse
+            %p.navbar-text.pull-right
+              Logged as <a href="#" class="navbar-link">Username</a>
             %ul.nav
               %li.active
                 %a{:href => "#"} Home
@@ -40,7 +42,15 @@
       = yield
     
     %footer.footer
-      %p &copy; J.Raigneau 2012 -  
+      .container
+        %p Conçu et développé avec beaucoup d'amour par <a href="http://labs.zeneffy.fr">J.Raigneau</a> en 2012.
+        %p Code sous licence Apache v2.0 disponible sur <a href="http://github.com/jraigneau/trafficy">github.</a>
+        %ul.footer-links
+          %li
+            %a{:href => "#"} Home
+          %li.muted
+          %li
+            %a{:href => "#about"} About
     / /container
     /
       Le javascript
