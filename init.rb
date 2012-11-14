@@ -11,7 +11,6 @@ configure :development do
 end
 
 configure :production do
-    logger.info "Connecting DB: " + ENV['DATABASE_URL']
 	DB = Sequel.connect(ENV['DATABASE_URL'])
 end
 
