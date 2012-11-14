@@ -4,7 +4,7 @@ require 'sequel'
 task :recreate_all => [:connectDB, :drop_results, :drop_paths, :create_paths, :create_results]
 
 task :connectDB do
-   DB = Sequel.connect(ENV['DATABASE_URL'] || "sqlite://trafficy-dev.db") 
+   DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://trafficy-dev.db')
 end
 
 task :create_results => [:connectDB] do
