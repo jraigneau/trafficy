@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 require 'sequel'
 
-task :recreate_all => [:drop_results, :drop_paths, :create_paths, :create_results]
+task :recreate_all => [:connectDB, :drop_results, :drop_paths, :create_paths, :create_results]
 
-task :create_results do
-    DB = Sequel.sqlite("trafficy-dev.db")
-    
+task :connectDB do
+   DB = Sequel.connect(ENV['DATABASE_URL'] || "sqlite://trafficy-dev.db") 
+end
+
+task :create_results => [:connectDB] do
     DB.create_table :results do
     	primary_key :id
 		Date      :date
@@ -17,13 +19,11 @@ task :create_results do
 	end
 end
 
-task :drop_results do
-    DB = Sequel.sqlite("trafficy-dev.db")
+task :drop_results => [:connectDB] do
     DB.drop_table :results
 end
 
-task :create_paths do
-    DB = Sequel.sqlite("trafficy-dev.db")
+task :create_paths => [:connectDB] do
 	DB.create_table :paths do
 		primary_key :id
 		String  :origin
@@ -37,6 +37,5 @@ task :create_paths do
 end
 
 task :drop_paths do
-    DB = Sequel.sqlite("trafficy-dev.db")
     DB.drop_table :paths
 end
