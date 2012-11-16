@@ -37,8 +37,9 @@ get '/' do
 end
 
 # [ ]
-#https://maps.google.fr/maps?saddr=14+Rue+de+Lorraine,+Asni%C3%A8res-sur-Seine&daddr=26+Rue+de+la+Rochefoucauld,+Boulogne-Billancourt
-#0,15,30,45 6-10  * * 1-5   
+#https://maps.google.fr/maps?saddr=14+Rue+de+Lorraine,+Asni%C3%A8res-sur-Seine&daddr=26+Rue+de+la+Rochefoucauld,+Boulogne-Billanco
+#0,15,30,45      6-10    *       *       1-5     root    /bin/ash /root/trafficy/trafficy.sh
+#0,15,30,45      16-20    *       *       1-5     root    /bin/ash /root/trafficy/trafficy.sh
 
 get '/run/:now' do
   if params[:now]
@@ -54,7 +55,7 @@ get '/run/:now' do
         #logger.info "https://maps.google.fr/maps?saddr=#{ origin }&daddr=#{ destination }"
         doc = Nokogiri::HTML(open("https://maps.google.fr/maps?saddr=#{ origin }&daddr=#{ destination }"))  
         data = doc.xpath("//*[@id='altroute_0']/div/div[2]/span")
-        if data.length != 0 and data.text.split(":").include?("conditions actuelles") #il y a des bouchons
+        if data.length != 0 and data.text.split(":").length != 0 #il y a des bouchons
           logger.info "Data.test.split(':'): " + data.text.split(":").join(",")
           data = data.text.split(":")[1].split(" ")
           #first result: "Dans les conditions actuelles de circulation : 1 heure 10 min" 
