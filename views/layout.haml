@@ -29,13 +29,7 @@
             %span.icon-bar
           %a.brand{:href => "#"} Trafficy
           .nav-collapse
-            %p.navbar-text.pull-right
-              Logged as <a href="#" class="navbar-link">Username</a>
-            %ul.nav
-              %li.active
-                %a{:href => "#"} Accueil
-              %li
-                %a{:href => "#about"} A propos
+            = render(:haml,:'navigation',:locals => {:nav => @nav})
           / /.nav-collapse
     
     .container    

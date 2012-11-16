@@ -33,7 +33,45 @@ helpers do
 end
 
 get '/' do
+  @nav = 'index'
   haml :index
+end
+
+get '/about' do
+  @nav = 'about'
+  haml :index
+end
+
+get '/create' do
+  @nav = 'create'
+  haml :index
+end
+
+get '/list' do
+  @nav = 'list'
+  @paths = []
+  Path.each do |path|
+    min = 100000
+    max = 0
+    mean = 0
+    origin = path.origin
+    destination = path.destination
+    nb = 0
+    Result.where(:path_id => path.id).each do |result|
+      minutes = result.minutes
+      mean = mean + minutes
+      if min>minutes then min = minutes end
+      if max<minutes then max = minutes end
+      nb = nb + 1
+    end
+    if nb != 0
+      mean = mean/nb
+    else #aucun calcul encore
+      mean,min,max = "NA","NA","NA"
+    end
+    @paths << {:origin => origin, :destination => destination, :min => min, :max => max, :mean => mean} 
+  end
+  haml :list
 end
 
 # [ ]

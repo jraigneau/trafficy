@@ -2,7 +2,7 @@
 -------------------------------------------------- */
 
 .footer {
-  padding: 30px 0;
+  padding: 10px 0;
   margin-top: 70px;
   border-top: 1px solid #E6CBDA;
   background-color: #FFE2F2;
@@ -26,5 +26,5 @@
 /* Updated styles from default */
 body{background-image: url('/images/polonez_car.png')}
 .navbar .brand{font-size: 28px;font-weight: 600;}
-
+table{background-color:#FFF}
 .hero-unit {padding: 0px 60px 30px 30px;background-color:#FFF}
