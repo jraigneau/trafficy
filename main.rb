@@ -55,7 +55,8 @@ get '/run/:now' do
         #logger.info "https://maps.google.fr/maps?saddr=#{ origin }&daddr=#{ destination }"
         doc = Nokogiri::HTML(open("https://maps.google.fr/maps?saddr=#{ origin }&daddr=#{ destination }"))  
         data = doc.xpath("//*[@id='altroute_0']/div/div[2]/span")
-        if data.length != 0 and data.text.split(":").length != 0 #il y a des bouchons
+        logger.info data
+        if data.length != 0 and !data.text.split(":").include?("Aucune information sur le trafic") #il y a des bouchons
           logger.info "Data.test.split(':'): " + data.text.split(":").join(",")
           data = data.text.split(":")[1].split(" ")
           #first result: "Dans les conditions actuelles de circulation : 1 heure 10 min" 
