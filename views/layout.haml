@@ -33,9 +33,9 @@
               Logged as <a href="#" class="navbar-link">Username</a>
             %ul.nav
               %li.active
-                %a{:href => "#"} Home
+                %a{:href => "#"} Accueil
               %li
-                %a{:href => "#about"} About
+                %a{:href => "#about"} A propos
           / /.nav-collapse
     
     .container    
@@ -43,14 +43,18 @@
     
     %footer.footer
       .container
-        %p Conçu et développé avec beaucoup d'amour par <a href="http://labs.zeneffy.fr">J.Raigneau</a> en 2012.
-        %p Code sous licence Apache v2.0 disponible sur <a href="http://github.com/jraigneau/trafficy">github.</a>
-        %ul.footer-links
-          %li
-            %a{:href => "#"} Home
-          %li.muted
-          %li
-            %a{:href => "#about"} About
+        .span7
+          %h4 Trafficy
+          %p Conçu et développé avec beaucoup d'amour au sein de <a href="http://labs.zeneffy.fr">Zeneffy Labs</a> en 2012.
+          %p Code sous licence Apache v2.0 disponible sur <a href="http://github.com/jraigneau/trafficy">github.</a>
+        .span3
+          %h4 Navigation
+          %ul.footer-links
+            %li
+              %a{:href => "#"} Accueil
+            %li.muted
+            %li
+              %a{:href => "#about"} A propos
     / /container
     /
       Le javascript
