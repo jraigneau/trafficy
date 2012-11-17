@@ -3,18 +3,25 @@
     %tr
       %th Origine
       %th Destination
-      %th Moyenne (matin/soir)
-      %th Minimum (matin/soir)
-      %th Maximum (matin/soir)
-      %th
+      %th <center>Moyenne (matin/soir)</center>
+      %th <center>Minimum (matin/soir)</center>
+      %th <center>Maximum (matin/soir)</center>
+      %th Actions
   %tbody
     - @paths.each do |path|
       %tr
         %td #{path[:origin]}
         %td #{path[:destination]}
-        %td #{path[:mean_m]} / #{path[:mean_s]}
-        %td #{path[:min_m]} / #{path[:min_s]}
-        %td #{path[:max_m]} / #{path[:max_s]}
-        %td Plus d'infos
+        %td <center>#{path[:mean_m]} / #{path[:mean_s]}</center>
+        %td <center>#{path[:min_m]} / #{path[:min_s]}</center>
+        %td <center>#{path[:max_m]} / #{path[:max_s]}</center>
+        %td 
+          %span.the-icons
+            %a{:href => "/paths/stats/#{path[:id]}"}
+              %i.icon-eye-open
+            %a{:href => "/paths/edit/#{path[:id]}"}
+              %i.icon-edit
+            %a{:href => "/paths/delete/#{path[:id]}",:onclick=>"return confirm('Souhaitez vous supprimer ce trajet ? \\n\\nToutes les données seront perdues seront perdues!');"}
+              %i.icon-trash
 
 

@@ -50,21 +50,34 @@ get '/create' do
   haml :index
 end
 
-get '/list' do
-  @nav = 'list'
+get '/paths/list' do
+  @nav = 'paths/list'
   @paths = []
   Path.each do |path|
     origin = path.origin
     destination = path.destination
     min_s,max_s,mean_s = calc_min_max_min_for(path,0) #evening
     min_m,max_m,mean_m = calc_min_max_min_for(path,1) #morning
-    @paths <<   {:origin => origin, :destination => destination, 
+    @paths <<   {:id => path.id, :origin => origin, :destination => destination, 
                   :min_s => min_s, :max_s => max_s, :mean_s => mean_s,
                   :min_m => min_m, :max_m => max_m, :mean_m => mean_m
                 } 
   end
   haml :list
 end
+
+get '/paths/delete/:id' do
+  if params[:id]
+    id = params[:id]
+    begin
+      Path.where(:id => id).delete
+    rescue Exception => e
+      logger.error "/delete/#{id} :" + e.message
+    end
+  end
+  redirect '/paths/list'
+end
+
 
 # [ ]
 #https://maps.google.fr/maps?saddr=14+Rue+de+Lorraine,+Asni%C3%A8res-sur-Seine&daddr=26+Rue+de+la+Rochefoucauld,+Boulogne-Billanco

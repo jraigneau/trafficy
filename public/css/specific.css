@@ -27,4 +27,19 @@
 body{background-image: url('/images/polonez_car.png')}
 .navbar .brand{font-size: 28px;font-weight: 600;}
 table{background-color:#FFF}
+.table td{vertical-align:middle;}
 .hero-unit {padding: 0px 60px 30px 30px;background-color:#FFF}
+
+.the-icons {
+  font-size: 16px;
+  list-style: none;
+  padding: 0px;
+}
+.the-icons a {
+  padding-right: 2px; 
+}
+
+.the-icons a:hover{
+  text-decoration: none;
+  
+}
