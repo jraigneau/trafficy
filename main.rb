@@ -9,6 +9,7 @@ require 'sequel'
 require "sinatra/reloader" if development?
 
 require './init'
+require './utils'
 
 #https://maps.google.fr/maps?saddr=14+Rue+de+Lorraine,+Asni%C3%A8res-sur-Seine&daddr=Ris-Orangis
 #0,15,30,45 6-10  * * 1-5   root    /bin/ash /root/trafficy/trafficy.sh
@@ -18,6 +19,7 @@ helpers do
   def link_to text, url
     "<a href='#{ URI.encode url }'>#{ text }</a>"
   end
+  
   #vérifie si la date est le matin ou le soir (après / avant 13h) => defaut = matin
   def is_morning?(myDate)
     if myDate.nil? or myDate == 0
@@ -29,8 +31,9 @@ helpers do
         false
       end
     end  
-  end
+  end  
 end
+
 
 get '/' do
   @nav = 'index'
@@ -51,25 +54,14 @@ get '/list' do
   @nav = 'list'
   @paths = []
   Path.each do |path|
-    min = 100000
-    max = 0
-    mean = 0
     origin = path.origin
     destination = path.destination
-    nb = 0
-    Result.where(:path_id => path.id).each do |result|
-      minutes = result.minutes
-      mean = mean + minutes
-      if min>minutes then min = minutes end
-      if max<minutes then max = minutes end
-      nb = nb + 1
-    end
-    if nb != 0
-      mean = mean/nb
-    else #aucun calcul encore
-      mean,min,max = "NA","NA","NA"
-    end
-    @paths << {:origin => origin, :destination => destination, :min => min, :max => max, :mean => mean} 
+    min_s,max_s,mean_s = calc_min_max_min_for(path,0) #evening
+    min_m,max_m,mean_m = calc_min_max_min_for(path,1) #morning
+    @paths <<   {:origin => origin, :destination => destination, 
+                  :min_s => min_s, :max_s => max_s, :mean_s => mean_s,
+                  :min_m => min_m, :max_m => max_m, :mean_m => mean_m
+                } 
   end
   haml :list
 end
