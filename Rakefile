@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'sequel'
 
-task :recreate_all => [:connectDB, :drop_results, :drop_logs, :drop_paths, :create_paths, :create_results,:create_logs]
+task :recreate_all => [:connectDB, :drop_results, :drop_logs, :drop_paths, :create_paths, :create_results, :create_logs]
 
 task :connectDB do
   DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://trafficy-dev.db')
@@ -36,7 +36,7 @@ task :create_paths => [:connectDB] do
 
 end
 
-task :drop_paths do
+task :drop_paths => [:connectDB] do
   DB.drop_table :paths
 end
 
@@ -51,6 +51,6 @@ task :create_logs => [:connectDB] do
 	end
 end
 
-task :drop_logs do
+task :drop_logs => [:connectDB] do
   DB.drop_table :logs
 end
