@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'sequel'
 
-task :recreate_all => [:connectDB, :drop_results, :drop_paths, :create_paths, :create_results, :drop_logs, :create_logs]
+task :recreate_all => [:connectDB, :drop_results, :drop_logs, :drop_paths, :create_paths, :create_results,:create_logs]
 
 task :connectDB do
   DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://trafficy-dev.db')
@@ -13,7 +13,7 @@ task :create_results => [:connectDB] do
 		DateTime      :date
 		Integer   :minutes
     Integer   :is_morning
-		foreign_key :path_id, :paths
+		foreign_key :path_id, :paths, :on_delete => :cascade
 		timestamp :created_at
 		timestamp :updated_at
 	end
@@ -45,7 +45,7 @@ task :create_logs => [:connectDB] do
     primary_key :id
 		String   :message
     DateTime :run_date
-		foreign_key :path_id, :paths
+		foreign_key :path_id, :paths, :on_deltee => :cascade
 		timestamp :created_at
 		timestamp :updated_at
 	end
