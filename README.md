@@ -15,7 +15,7 @@ A partir de ces données, **Trafficy** calcule différentes **métriques** (moye
   - [DB][IHM]notion de compte premium
 - Gestion de la volumétrie de requetes vers google Maps
   - [SER] Algo de répartition de charge sur le serveur
-  - [DB] Ajout de la notion de chemins activés/desactivés
+  - [DB] Ajout de la notion de chemins activés/desactivés selon date de création
 - [IHM] Gestion des messages de retour via flash
 - [IHM] Création/édition de chemins
 - Consultation des résultats

@@ -70,13 +70,27 @@ get '/paths/delete/:id' do
   if params[:id]
     id = params[:id]
     begin
-      Path.where(:id => id).delete
+      #Path.where(:id => id).delete
     rescue Exception => e
       logger.error "/delete/#{id} :" + e.message
     end
   end
   redirect '/paths/list'
 end
+
+get '/paths/stats/:id' do
+  if params[:id]
+    id = params[:id]
+    begin
+        #TODO
+    rescue Exception => e
+      logger.error "/stats/#{id} :" + e.message
+    end
+  end
+  @nav = ''
+  haml :stats
+end
+
 
 
 # [ ]

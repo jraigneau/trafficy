@@ -1,0 +1,27 @@
+%p.navbar-text.pull-right
+  Bienvenue, <a href="#" class="navbar-link">Username</a>!
+%ul.nav
+  - if nav=="index"
+    %li(class="active")
+      %a{:href => "/"} Accueil
+  - else
+    %li
+      %a{:href => "/"} Accueil
+  - if nav=="about"
+    %li(class="active")
+      %a{:href => "/about"} A propos
+  - else
+    %li
+      %a{:href => "/about"} A propos
+  - if nav=="create"
+    %li(class="active")
+      %a{:href => "/paths/new"} Créer un trajet
+  - else
+    %li
+      %a{:href => "/paths/new"} Créer un trajet
+  - if nav=="paths/list"
+    %li(class="active")
+      %a{:href => "/paths/list"} Voir les résultats
+  - else
+    %li
+      %a{:href => "/paths/list"} Voir les résultats
