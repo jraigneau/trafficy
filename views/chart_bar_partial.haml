@@ -10,25 +10,25 @@
           },
           
           title: {
-              text: 'Temperature variation by month'
+              text: "#{graph[:title]}"
           },
           
           subtitle: {
-              text: 'Observed in Vik i Sogn, Norway, 2009'
+              text: "#{graph[:subtitle]}"
           },
       
           xAxis: {
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+              categories: #{graph[:xAxis]}
           },
           
           yAxis: {
               title: {
-                  text: 'Temperature ( °C )'
+                  text: 'Temps de trajet (min)'
               }
           },
       
           tooltip: {
-              valueSuffix: '°C'
+              valueSuffix: 'min'
           },
           
           plotOptions: {
@@ -36,7 +36,7 @@
                   dataLabels: {
                       enabled: true,
                       formatter: function () {
-                          return this.y + '°C';
+                          return this.y + 'min';
                       }
                   }
               }
@@ -47,21 +47,8 @@
           },
       
           series: [{
-              name: 'Temperatures',
-              data: [
-                  [-9.7, 9.4],
-                  [-8.7, 6.5],
-                  [-3.5, 9.4],
-                  [-1.4, 19.9],
-                  [0.0, 22.6],
-                  [2.9, 29.5],
-                  [9.2, 30.7],
-                  [7.3, 26.5],
-                  [4.4, 18.0],
-                  [-3.1, 11.4],
-                  [-5.2, 10.4],
-                  [-13.5, 9.8]
-              ]
+              name: 'Temps de trajet',
+              data: #{graph[:data]}
           }]
       
       });

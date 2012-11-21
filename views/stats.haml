@@ -3,25 +3,31 @@
 %script( type="text/javascript" src="http://code.highcharts.com/modules/exporting.js")
 
 .row
-  <div class="span3 bs-docs-sidebar">
-  <ul class="nav nav-list bs-docs-sidenav">
-  <li><a href="#graph1"><i class="icon-chevron-right"></i> Dropdowns</a></li>
-  <li><a href="#graph2"><i class="icon-chevron-right"></i> Button groups</a></li>
-  <li><a href="#graph3"><i class="icon-chevron-right"></i> Button dropdowns</a></li>
-  </ul>
-  </div>
+  .span3.bs-docs-sidebar
+    %ul(class="nav nav-list bs-docs-sidenav")
+      %li(class="bs-docs-header")
+        Matin
+      %li
+        %a(href="#graph1")
+          <i class="icon-chevron-right"></i>Test
+      %li
+        %a(href="#graph2")
+          <i class="icon-chevron-right"></i>Test
+      %li(class="bs-docs-header")
+        Soir
+      %li
+        %a(href="#graph3")
+          <i class="icon-chevron-right"></i>Test
+      %li
+        %a(href="#graph4")
+          <i class="icon-chevron-right"></i>Test
+
+
 
 
   .span9
   
     %section(id="graph1")
+      %h3 
       #container_graph1.graphs    
-      = render(:haml,:'chart_bar_partial',:locals => {:container_id => "container_graph1"})
-    
-    %section(id="graph2")
-      #container_graph2.graphs
-      = render(:haml,:'chart_bar_partial',:locals => {:container_id => "container_graph2"})
-
-    %section(id="graph3")
-      #container_graph3.graphs
-      = render(:haml,:'chart_bar_partial',:locals => {:container_id => "container_graph3"})
+      = render(:haml,:'chart_bar_partial',:locals => {:graph => @graph1, :container_id => "container_graph1"})

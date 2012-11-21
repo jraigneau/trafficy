@@ -81,8 +81,23 @@ end
 get '/paths/stats/:id' do
   if params[:id]
     id = params[:id]
-    begin
-        #TODO
+    begin  
+      data = [
+                [-9.7, 9.4],
+                [-8.7, 6.5],
+                [-3.5, 9.4],
+                [-1.4, 19.9],
+                [0.0, 22.6],
+                [2.9, 29.5],
+                [9.2, 30.7],
+                [7.3, 26.5],
+                [4.4, 18.0],
+                [-3.1, 11.4],
+                [-5.2, 10.4],
+                [-13.5, 9.8]
+            ]
+      xAxis = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      @graph1 = {:title => "Répartition des temps de trajets le matin", :subtitle => "Calcul basé sur x jours",:xAxis => xAxis,:data => data}
     rescue Exception => e
       logger.error "/stats/#{id} :" + e.message
     end
