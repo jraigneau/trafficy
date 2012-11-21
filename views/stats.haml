@@ -1,3 +1,27 @@
-<div id="container_graph1" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+%script( type="text/javascript" src="http://code.highcharts.com/highcharts.js")
+%script( type="text/javascript" src="http://code.highcharts.com/highcharts-more.js")
+%script( type="text/javascript" src="http://code.highcharts.com/modules/exporting.js")
 
-= render(:haml,:'chart_bar_partial',:locals => {:nav => @nav})
+.row
+  <div class="span3 bs-docs-sidebar">
+  <ul class="nav nav-list bs-docs-sidenav">
+  <li><a href="#graph1"><i class="icon-chevron-right"></i> Dropdowns</a></li>
+  <li><a href="#graph2"><i class="icon-chevron-right"></i> Button groups</a></li>
+  <li><a href="#graph3"><i class="icon-chevron-right"></i> Button dropdowns</a></li>
+  </ul>
+  </div>
+
+
+  .span9
+  
+    %section(id="graph1")
+      #container_graph1.graphs    
+      = render(:haml,:'chart_bar_partial',:locals => {:container_id => "container_graph1"})
+    
+    %section(id="graph2")
+      #container_graph2.graphs
+      = render(:haml,:'chart_bar_partial',:locals => {:container_id => "container_graph2"})
+
+    %section(id="graph3")
+      #container_graph3.graphs
+      = render(:haml,:'chart_bar_partial',:locals => {:container_id => "container_graph3"})
