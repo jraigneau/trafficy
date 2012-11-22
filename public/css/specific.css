@@ -22,7 +22,6 @@
   padding-left: 0;
 }
 
-
 /* Updated styles from default */
 body{background-image: url('/images/polonez_car.png')}
 .navbar .brand{font-size: 28px;font-weight: 600;}
@@ -48,6 +47,9 @@ table{background-color:#FFF}
   height: 400px; 
   margin: 0 auto;
 }
+
+a {color: #9B4875;}
+a:hover{color:#570E35;}
 
 
 /* Sidenav for Docs
@@ -101,7 +103,7 @@ table{background-color:#FFF}
   opacity: .25;
 }
 .bs-docs-sidenav > li > a:hover {
-  background-color: #DD4814;
+  background-color: #9B4875;
   color: #fff;
 }
 .bs-docs-sidenav a:hover .icon-chevron-right {

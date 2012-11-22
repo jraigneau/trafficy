@@ -81,22 +81,24 @@ end
 get '/paths/stats/:id' do
   if params[:id]
     id = params[:id]
-    begin  
-      data = [
-                [-9.7, 9.4],
-                [-8.7, 6.5],
-                [-3.5, 9.4],
-                [-1.4, 19.9],
-                [0.0, 22.6],
-                [2.9, 29.5],
-                [9.2, 30.7],
-                [7.3, 26.5],
-                [4.4, 18.0],
-                [-3.1, 11.4],
-                [-5.2, 10.4],
-                [-13.5, 9.8]
-            ]
-      xAxis = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    begin
+      data = []
+      xAxis = []
+      for i in 6..10
+        for j in [0,15,30,45]
+          interval = i*100+j
+          if interval > 1000 #pas d'horaire supérieur à 10:00
+            break
+          end
+          min,max,mean = stats_by_path_and_interval(id,interval)
+          data << [min,max]
+          if j == 0 
+            xAxis << ["#{i}:#{j}0"]
+          else
+            xAxis << ["#{i}:#{j}"]
+          end  
+        end
+      end
       @graph1 = {:title => "Répartition des temps de trajets le matin", :subtitle => "Calcul basé sur x jours",:xAxis => xAxis,:data => data}
     rescue Exception => e
       logger.error "/stats/#{id} :" + e.message
@@ -143,7 +145,8 @@ get '/run/:now' do
           min = data[0].to_i
         end
         logger.info "origin: #{origin} dest: #{destination} nb min:#{min.to_s}"
-        Result.create(:date => DateTime.strptime(params[:now], "%Y-%m-%d_%H-%M"), :minutes => min, :path_id => path.id, :is_morning => is_morning)
+        date = DateTime.strptime(params[:now],"%Y-%m-%d_%H-%M")
+        Result.create(:date => date, :interval => date.hour*100+date.minute , :minutes => min, :path_id => path.id, :is_morning => is_morning)
         
         rescue Exception => e
           Log.create(:message => e.message, :path_id => path.id, :run_date => DateTime.strptime(params[:now], "%Y-%m-%d_%H-%M"))

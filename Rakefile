@@ -10,7 +10,8 @@ end
 task :create_results => [:connectDB] do
   DB.create_table :results do
     primary_key :id
-		DateTime      :date
+		DateTime  :date
+    Integer   :interval
 		Integer   :minutes
     Integer   :is_morning
 		foreign_key :path_id, :paths, :on_delete => :cascade
@@ -53,4 +54,15 @@ end
 
 task :drop_logs => [:connectDB] do
   DB.drop_table :logs
+end
+
+
+task :migrationV1 => [:connectDB] do
+  DB.add_column :results, :interval, Integer
+  results = DB[:results]
+  results.each do |result|
+    date = result[:date]
+    date = (date.hour+5)*100 + date.min
+    results.where(:id => result[:id]).update(:interval => date)
+  end
 end
