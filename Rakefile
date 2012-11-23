@@ -58,11 +58,10 @@ end
 
 
 task :migrationV1 => [:connectDB] do
-  DB.add_column :results, :interval, Integer
   results = DB[:results]
   results.each do |result|
     date = result[:date]
-    date = (date.hour+5)*100 + date.min
+    date = (date.hour)*100 + date.min
     results.where(:id => result[:id]).update(:interval => date)
   end
 end
