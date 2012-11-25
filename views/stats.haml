@@ -11,28 +11,38 @@
         %a(href="#graph1")
           <i class="icon-chevron-right"></i>Synthèse
       %li
-        %a(href="#graph3")
-          <i class="icon-chevron-right"></i>Test
+        %a(href="#graph1-scatter")
+          <i class="icon-chevron-right"></i>Répartition
       %li(class="bs-docs-header")
         Soir
       %li
         %a(href="#graph2")
           <i class="icon-chevron-right"></i>Synthèse
-      %li(style="width:58px;")
-        %a(href="#graph4")
-          <i class="icon-chevron-right"></i>Test
+      %li
+        %a(href="#graph2-scatter")
+          <i class="icon-chevron-right"></i>Répartition
 
 
 
 
   .span9
-  
-    %section(id="graph1")
-      %h3 
-      #container_graph1.graphs    
-      = render(:haml,:'chart_bar_partial',:locals => {:graph => @graph1, :container_id => "container_graph1"})
-
-    %section(id="graph2")
-      %h3 
-      #container_graph2.graphs    
-      = render(:haml,:'chart_bar_partial',:locals => {:graph => @graph2, :container_id => "container_graph2"})
+    .hero-unit
+      %h2 Matin
+      %section(id="graph1")
+        %h3 Synthèse des temps de trajet du matin
+        #container_graph1.graphs    
+        = render(:haml,:'chart_bar_partial',:locals => {:graph => @graph1, :container_id => "container_graph1"})
+      %section(id="graph1-scatter")
+        %h3 Répartition des temps de trajet du matin
+        #container_graph1-scatter.graphs    
+        = render(:haml,:'chart_scatter_partial',:locals => {:graph => @graph1, :container_id => "container_graph1-scatter"})
+    .hero-unit
+      %h2 Soir
+      %section(id="graph2")
+        %h3 Synthèse des temps de trajet du soir
+        #container_graph2.graphs    
+        = render(:haml,:'chart_bar_partial',:locals => {:graph => @graph2, :container_id => "container_graph2"})
+      %section(id="graph2-scatter")
+        %h3 Répartition des temps de trajet du soir
+        #container_graph2-scatter.graphs    
+        = render(:haml,:'chart_scatter_partial',:locals => {:graph => @graph1, :container_id => "container_graph2-scatter"})
