@@ -11,12 +11,12 @@
         %a(href="#graph1")
           <i class="icon-chevron-right"></i>Synthèse
       %li
-        %a(href="#graph2")
+        %a(href="#graph3")
           <i class="icon-chevron-right"></i>Test
       %li(class="bs-docs-header")
         Soir
       %li
-        %a(href="#graph3")
+        %a(href="#graph2")
           <i class="icon-chevron-right"></i>Synthèse
       %li(style="width:58px;")
         %a(href="#graph4")
@@ -31,3 +31,8 @@
       %h3 
       #container_graph1.graphs    
       = render(:haml,:'chart_bar_partial',:locals => {:graph => @graph1, :container_id => "container_graph1"})
+
+    %section(id="graph2")
+      %h3 
+      #container_graph2.graphs    
+      = render(:haml,:'chart_bar_partial',:locals => {:graph => @graph2, :container_id => "container_graph2"})

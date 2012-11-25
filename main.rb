@@ -82,24 +82,46 @@ get '/paths/stats/:id' do
   if params[:id]
     id = params[:id]
     begin
-      data = []
-      xAxis = []
+      data,xAxis = [],[]
       for i in 6..10
         for j in [0,15,30,45]
           interval = i*100+j
-          if interval > 1000 #pas d'horaire supérieur à 10:00
+          if interval > 1045 #pas d'horaire supérieur à 10:00
             break
           end
           min,max,mean = stats_by_path_and_interval(id,interval)
-          data << [min,max]
-          if j == 0 
-            xAxis << ["#{i}:#{j}0"]
-          else
-            xAxis << ["#{i}:#{j}"]
-          end  
+          if min != "NA"
+            data << [min,max]
+            if j == 0 
+              xAxis << ["#{i}:#{j}0"]
+            else
+              xAxis << ["#{i}:#{j}"]
+            end
+          end
         end
       end
-      @graph1 = {:title => "Répartition des temps de trajets le matin", :subtitle => "Calcul basé sur x jours",:xAxis => xAxis,:data => data}
+      days = Result.where(:path_id => id, :interval => 700 ,:is_morning => 1).count
+      @graph1 = {:title => "Répartition des temps de trajets le matin", :subtitle => "Calcul basé sur #{days} jours",:xAxis => xAxis,:data => data}
+      data,xAxis = [],[]
+      for i in 16..20
+        for j in [0,15,30,45]
+          interval = i*100+j
+          if interval > 2045 #pas d'horaire supérieur à 20:00
+            break
+          end
+          min,max,mean = stats_by_path_and_interval(id,interval)
+          if min != "NA"
+            data << [min,max]
+            if j == 0 
+              xAxis << ["#{i}:#{j}0"]
+            else
+              xAxis << ["#{i}:#{j}"]
+            end
+          end
+        end
+      end
+      days = Result.where(:path_id => id, :interval => 1600 ,:is_morning => 0).count
+      @graph2 = {:title => "Répartition des temps de trajets le soir", :subtitle => "Calcul basé sur #{days} jours",:xAxis => xAxis,:data => data}
     rescue Exception => e
       logger.error "/stats/#{id} :" + e.message
     end
