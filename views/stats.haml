@@ -30,19 +30,23 @@
       %h2 Matin
       %section(id="graph1")
         %h3 Synthèse des temps de trajet du matin
+        %p Ce graphique permet de visualiser les intervalles entre temps de trajet minimum et maximum pour chaque créneau horaire
         #container_graph1.graphs    
         = render(:haml,:'chart_bar_partial',:locals => {:graph => @graph1, :container_id => "container_graph1"})
       %section(id="graph1-scatter")
         %h3 Répartition des temps de trajet du matin
+        %p Ce graphique permet de visualiser la répartition des temps de trajet pour chaque créneau horaire
         #container_graph1-scatter.graphs    
         = render(:haml,:'chart_scatter_partial',:locals => {:graph => @graph1, :container_id => "container_graph1-scatter"})
     .hero-unit
       %h2 Soir
       %section(id="graph2")
         %h3 Synthèse des temps de trajet du soir
+        %p Ce graphique permet de visualiser les intervalles entre temps de trajet minimum et maximum pour chaque créneau horaire
         #container_graph2.graphs    
         = render(:haml,:'chart_bar_partial',:locals => {:graph => @graph2, :container_id => "container_graph2"})
       %section(id="graph2-scatter")
         %h3 Répartition des temps de trajet du soir
+        %p Ce graphique permet de visualiser la répartition des temps de trajet pour chaque créneau horaire
         #container_graph2-scatter.graphs    
         = render(:haml,:'chart_scatter_partial',:locals => {:graph => @graph1, :container_id => "container_graph2-scatter"})
