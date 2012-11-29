@@ -1,62 +1,66 @@
 :javascript
   $(function () {
-      var chart;
-      $(document).ready(function() {
-          chart = new Highcharts.Chart({
-              chart: {
-                  renderTo: '#{container_id}',
-                  type: 'bar'
-              },
-              title: {
-                  text: 'Stacked bar chart'
-              },
-              xAxis: {
-                  categories: ['6H', '6h15', '6h30', '6h45', '7h', '7h15']
-              },
-              yAxis: {
-                  min: 0,
-                  title: {
-                      text: 'Total fruit consumption'
-                  }
-              },
-              legend: {
-                  backgroundColor: '#FFFFFF',
-                  reversed: true
-              },
-              tooltip: {
-                  formatter: function() {
-                      return ''+
-                          this.series.name +': '+ this.y +'';
-                  }
-              },
-              plotOptions: {
-                  series: {
-                      stacking: 'normal'
-                  }
-              },
-                  series: [{
-                  name: '<15min',
-                  data: [5, 3, 4, 7, 2,4]
-              }, {
-                  name: '<30min',
-                  data: [2, 2, 3, 2, 1,5]
-              }, {
-                  name: '<45min',
-                  data: [3, 4, 4, 2, 5,3]
-              }, {
-                  name: '<1h',
-                  data: [3, 4, 4, 2, 5,3]
-              }, {
-                  name: '<1h30',
-                  data: [3, 4, 4, 2, 5,3]
-              }, {
-                  name: '<2h',
-                  data: [3, 4, 4, 2, 5,3]
-              }, {
-                  name: '>2h',
-                  data: [3, 4, 4, 2, 5,3]
-              }]
-          });
-      });
+  var chart;
+  $(document).ready(function() {
+    chart = new Highcharts.Chart({
+      chart: {
+        renderTo: '#{container_id}',
+        type: 'bar'
+      },
+      title: {
+        text: '#{graph[:title]}'
+      },
       
+      subtitle: {
+        text: "#{graph[:subtitle]}"
+      },
+      
+      xAxis: {
+        categories: #{graph[:xAxis]}
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Répartition en %'
+        }
+      },
+      legend: {
+        backgroundColor: '#FFFFFF',
+        reversed: true
+      },
+      tooltip: {
+        formatter: function() {
+          return ''+
+            this.series.name +': '+ this.y +' fois.';
+        }
+      },
+      plotOptions: {
+        series: {
+          stacking: 'percent'
+        }
+      },
+        series: [{
+        name: '>1h40',
+        data: #{graph[:data]["99999"]}
+      }, {
+        name: '<1h40',
+        data: #{graph[:data]["100"]}
+      }, {
+        name: '<1h20',
+        data: #{graph[:data]["80"]}
+      }, {
+        name: '<1h',
+        data: #{graph[:data]["60"]}
+      }, {
+        name: '<45min',
+        data: #{graph[:data]["45"]}
+      }, {
+        name: '<30min',
+        data: #{graph[:data]["30"]}
+      }, {
+        name: '<20min',
+        data: #{graph[:data]["20"]}
+      }]
+      });
+    });
   });
