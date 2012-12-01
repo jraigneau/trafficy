@@ -40,25 +40,28 @@
         }
       },
         series: [{
-        name: '>1h40',
+        name: '>1h20',
+        color: '#000000',
         data: #{graph[:data]["99999"]}
       }, {
-        name: '<1h40',
-        data: #{graph[:data]["100"]}
-      }, {
-        name: '<1h20',
+        name: '1h à 1h20',
+        color: '#e0272a',
         data: #{graph[:data]["80"]}
       }, {
-        name: '<1h',
+        name: '45min à 1h',
+        color: '#ce7625',
         data: #{graph[:data]["60"]}
       }, {
-        name: '<45min',
+        name: '30 à 45min',
+        color: '#fff728',
         data: #{graph[:data]["45"]}
       }, {
-        name: '<30min',
+        name: '20 à 30min',
+        color: '#acde39',
         data: #{graph[:data]["30"]}
       }, {
         name: '<20min',
+        color: '#8bd5e0',
         data: #{graph[:data]["20"]}
       }]
       });

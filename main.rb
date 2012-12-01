@@ -72,6 +72,9 @@ get '/paths/delete/:id' do
     begin
       #Path.where(:id => id).delete
     rescue Exception => e
+      message = "Exception for path #{id} in delete// e.message"
+      location = "/delete/"
+      Log.create(:message => message, :location => location)
       logger.error "/delete/#{id} :" + e.message
     end
   end
@@ -83,21 +86,20 @@ get '/paths/stats/:id' do
     id = params[:id]
     begin
       data,xAxis = calc_chart_bar(id,6..10)
-      daysM = Result.where(:path_id => id, :interval => 700 ,:is_morning => 1).count
-      @graph1 = {:title => "Amplitude des temps de trajets le matin", :subtitle => "Calcul basé sur #{daysM} jours",:xAxis => xAxis,:data => data}
+      path = Path.where(:id => id).first
+      @origin = path.origin
+      @destination  = path.destination
+      @graph1 = {:title => "Amplitude des temps de trajets le matin", :subtitle => "#{@origin} >> #{@destination}",:xAxis => xAxis,:data => data}
       data,xAxis = calc_chart_bar(id,16..20)
-      daysE = Result.where(:path_id => id, :interval => 1700 ,:is_morning => 0).count
-      @graph2 = {:title => "Amplitude des temps de trajets le soir", :subtitle => "Calcul basé sur #{daysE} jours",:xAxis => xAxis,:data => data}
-    
+      @graph2 = {:title => "Amplitude des temps de trajets le soir", :subtitle => "#{@destination} >> #{@origin}",:xAxis => xAxis,:data => data}    
       data, xAxis = calc_chart_scatter(id, 6..10)
-      @graph3 = {:title => "Répartition des temps de trajets le matin", :subtitle => "Calcul basé sur #{daysM} jours",:xAxis => xAxis,:data => data}
- 
+      @graph3 = {:title => "Répartition des temps de trajets le matin", :subtitle => "#{@origin} >> #{@destination}",:xAxis => xAxis,:data => data}
       data, xAxis = calc_chart_scatter(id, 16..20)
-      @graph4 = {:title => "Répartition des temps de trajets le soir", :subtitle => "Calcul basé sur #{daysE} jours",:xAxis => xAxis,:data => data}
-
- 
-       
+      @graph4 = {:title => "Répartition des temps de trajets le soir", :subtitle => "#{@destination} >> #{@origin}",:xAxis => xAxis,:data => data}
     rescue Exception => e
+      message = "Exception for path #{id} in stats// e.message"
+      location = "/stats/"
+      Log.create(:message => message, :location => location)
       logger.error "/stats/#{id} :" + e.message
     end
   end
@@ -114,6 +116,7 @@ end
 
 get '/run/:now' do
   if params[:now]
+    Log.create(:message => "Starting Run #{params[:now]}", :location => "/run/")
     Path.each do |path|
       begin
         is_morning = 1
@@ -146,12 +149,15 @@ get '/run/:now' do
         Result.create(:date => date, :interval => date.hour*100+date.minute , :minutes => min, :path_id => path.id, :is_morning => is_morning)
         
         rescue Exception => e
-          Log.create(:message => e.message, :path_id => path.id, :run_date => DateTime.strptime(params[:now], "%Y-%m-%d_%H-%M"))
+          message = "Exception for path #{path.id} in Run #{params[:now]}// e.message"
+          location = "/run/"
+          Log.create(:message => message, :location => location)
           logger.error "/run/ :" + e.message
         end
       end
+      Log.create(:message => "Run #{params[:now]} Completed", :location => "/run/")
   end
-  return "200"
+  return "Done"
 end
 
 

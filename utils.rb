@@ -40,7 +40,7 @@ def stats_by_path_and_interval(path_id,interval)
   return min, max,mean 
 end
 
-TIME_SCATTER = [20,30,45,60,80,100,99999]
+TIME_SCATTER = [20,30,45,60,80,99999]
 
 #calcule la répartition des temps par chemin et par intervalle de temps
 def scatter_by_path_and_interval(path_id,interval)
@@ -59,7 +59,7 @@ def scatter_by_path_and_interval(path_id,interval)
           break
         end
       elsif i == 0
-        if minutes < TIME_SCATTER[i]
+        if minutes <= TIME_SCATTER[i]
           data["#{TIME_SCATTER[i]}"] = data["#{TIME_SCATTER[i]}"] + 1
           break
         end
@@ -71,8 +71,6 @@ def scatter_by_path_and_interval(path_id,interval)
       end
     end
   end
-  logger.info "minutes: #{minutesList}"
-  logger.info "path_id: #{path_id} // interva: #{interval} // data-scatter: #{data}"
   return data
 end
 
@@ -128,6 +126,5 @@ def calc_chart_scatter(path_id,hours)
       end
     end
   end
-  logger.info scatterData
   return scatterData,xAxis
 end

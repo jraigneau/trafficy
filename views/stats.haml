@@ -25,28 +25,28 @@
 
 
 
-  .span9
+  .span9      
     .hero-unit
-      %h1 Matin
+      %h2 Matin <small>De #{@origin} à #{@destination}
       %section(id="graph1")
-        %h3 Synthèse des temps de trajet du matin
-        %p Ce graphique permet de visualiser les intervalles entre temps de trajet minimum et maximum pour chaque créneau horaire.
+        %h4 Synthèse des temps de trajet du matin
+        %p Ce graphique permet de visualiser l'amplitude entre temps de trajet minimum et maximum pour chaque créneau horaire.
         #container_graph1.graphs    
         = render(:haml,:'chart_bar_partial',:locals => {:graph => @graph1, :container_id => "container_graph1"})
       %section(id="graph1-scatter")
-        %h3 Répartition des temps de trajet du matin
+        %h4 Répartition des temps de trajet du matin
         %p Ce graphique permet de visualiser la répartition des temps de trajet pour chaque créneau horaire.
         #container_graph1-scatter.graphs    
         = render(:haml,:'chart_scatter_partial',:locals => {:graph => @graph3, :container_id => "container_graph1-scatter"})
     .hero-unit
-      %h1 Soir
+      %h2 Soir  <small>De #{@destination} à #{@origin}
       %section(id="graph2")
-        %h3 Synthèse des temps de trajet du soir
-        %p Ce graphique permet de visualiser les intervalles entre temps de trajet minimum et maximum pour chaque créneau horaire.
+        %h4 Synthèse des temps de trajet du soir
+        %p Ce graphique permet de visualiser l'amplitude entre temps de trajet minimum et maximum pour chaque créneau horaire.
         #container_graph2.graphs    
         = render(:haml,:'chart_bar_partial',:locals => {:graph => @graph2, :container_id => "container_graph2"})
       %section(id="graph2-scatter")
-        %h3 Répartition des temps de trajet du soir
+        %h4 Répartition des temps de trajet du soir
         %p Ce graphique permet de visualiser la répartition des temps de trajet pour chaque créneau horaire.
         #container_graph2-scatter.graphs    
         = render(:haml,:'chart_scatter_partial',:locals => {:graph => @graph4, :container_id => "container_graph2-scatter"})
